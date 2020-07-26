@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   def index
-    @comments = Comment.all.limit(100)
+    @comments = Comment.all.order(id: :desc).limit(100)
     @comment = Comment.new
   end
 
@@ -15,9 +15,17 @@ class CommentsController < ApplicationController
   end
 
   def update
-    comment = Comment.find(params[:id]) 
-    if comment.update(likes: (comment.likes + 1))
-      head :ok
+    comment = Comment.find(params[:id])
+    user_id = params[:user_id]
+
+    if Like.exists?(comment: comment, anonymous_user_id: user_id)
+      head :conflict
+    else
+      if comment.update(likes: (comment.likes + 1))
+        Like.create(comment: comment, anonymous_user_id: user_id)
+
+        head :ok
+      end
     end
   end
 
