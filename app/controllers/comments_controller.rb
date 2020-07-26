@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   def index
-    @comments = Comment.all.order(id: :desc).limit(100)
+    @comments = Comment.all.order(id: :desc).limit(50)
     @comment = Comment.new
   end
 
