@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<%= render 'form', comment: @comment %>
+
 <section class="section">
   <div class="container">
     <% @comments.each do |comment| %>
@@ -29,5 +31,3 @@
     <% end %>
   </div>
 </section>
-
-<%= link_to 'New Comment', new_comment_path %>
