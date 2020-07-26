@@ -8,9 +8,9 @@ class CommentsController < ApplicationController
     @comment = Comment.new(comment_params.merge!(name: SuperHero.random))
 
     if @comment.save
-      redirect_to comments_path, notice: 'Comment was successfully created.'
+      redirect_to root_path, notice: 'Comment was successfully created.'
     else
-      redirect_to comments_path
+      redirect_to root_path
     end
   end
 
