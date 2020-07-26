@@ -1,51 +1,29 @@
 class CommentsController < ApplicationController
-  before_action :comment, only: %i[show edit update destroy]
-
   def index
-    @comments = Comment.all
-  end
-
-  def show
-  end
-
-  def new
+    @comments = Comment.all.limit(100)
     @comment = Comment.new
   end
 
-  def edit
-  end
-
   def create
-    @comment = Comment.new(comment_params)
+    @comment = Comment.new(comment_params.merge!(name: SuperHero.random))
 
     if @comment.save
-      redirect_to @comment, notice: 'Comment was successfully created.'
+      redirect_to comments_path, notice: 'Comment was successfully created.'
     else
-      render :new
+      redirect_to comments_path
     end
   end
 
   def update
-    if @comment.update(comment_params)
-      redirect_to @comment, notice: 'Comment was successfully updated.'
-    else
-      render :edit
+    comment = Comment.find(params[:id]) 
+    if comment.update(likes: (comment.likes + 1))
+      head :ok
     end
-  end
-
-  def destroy
-    @comment.destroy
-
-    redirect_to comments_url, notice: 'Comment was successfully destroyed.'
   end
 
   private
 
-  def comment
-    @comment ||= Comment.find(params[:id])
-  end
-
   def comment_params
-    params.require(:comment).permit(:name, :body, :likes)
+    params.require(:comment).permit(:body)
   end
 end
