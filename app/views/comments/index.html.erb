@@ -1,31 +1,33 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Comments</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Body</th>
-      <th>Likes</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
+<section class="section">
+  <div class="container">
     <% @comments.each do |comment| %>
-      <tr>
-        <td><%= comment.name %></td>
-        <td><%= comment.body %></td>
-        <td><%= comment.likes %></td>
-        <td><%= link_to 'Show', comment %></td>
-        <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-        <td><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      <div class="box">
+        <article class="media">
+          <div class="media-content">
+            <div class="content">
+              <p>
+                <strong><%= comment.name %></strong>
+                <br>
+                <%= comment.body %>
+              </p>
+            </div>
+            <div class="level is-mobile">
+              <div class="level-left">
+                <a class="level-item" aria-label="reply">
+                  <span class="icon is-small">
+                    <%= fa_icon 'heart'%>
+                  </span>
+                </a>
+                <span class="icon is-small"><%= comment.likes %></span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
     <% end %>
-  </tbody>
-</table>
-
-<br>
+  </div>
+</section>
 
 <%= link_to 'New Comment', new_comment_path %>
